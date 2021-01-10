@@ -1,81 +1,62 @@
 import React, { useEffect, useState } from "react";
-import Modal from "react-bootstrap/Modal";
-import getUserData from "../../services/users/UserData";
-import AssignRole from "./AssignRole"
-function UserList() {
-  const [showModal, setShowModal] = useState(false);
-  const handleCloseModal = () => setShowModal(false);
-  const handleShowMOdal = () => setShowModal(true);
+import getPermissonMasterData from "../../services/roles/RolePermissionData";
 
-  const [users, setusers] = useState([
+function RoleList() {
+  const [items, setitems] = useState([
     // {
-    //   username: "sumon",
+    //   itemname: "sumon",
     //   name: "sumon ahmed",
     //   password: "000",
     //   role: "admin",
     // },
     // {
-    //   username: "sumon1",
+    //   itemname: "sumon1",
     //   name: "sumon ahmed",
     //   password: "111",
     //   role: "super_admin",
     // },
     // {
-    //   username: "sumon3",
+    //   itemname: "sumon3",
     //   name: "sumon ahmed",
     //   password: "111",
     //   role: null,
     // },
     // {
-    //   username: "sumon4",
+    //   itemname: "sumon4",
     //   name: "sumon ahmed",
     //   password: "111",
     //   role: "executive",
     // },
   ]);
   useEffect(() => {
-    setusers(getUserData);
+    setitems(getPermissonMasterData);
     // return () => {
     //   cleanup
     // }
-  }, [setusers]);
-  const assignRole=(data)=>{
-    console.log('data', data)
-    alert('role entared')
-  }
-  // console.log(users)
+  }, [setitems]);
+  // console.log(items)
   return (
     <>
-      <div>
-        <div className="float-left">
-          <h2> User Lists</h2>
-        </div>
-        <div className="float-right">
-          <button className="btn btn-success" onClick={handleShowMOdal}>
-            {" "}
-            + Assign Role
-          </button>
-        </div>
-      </div>
+      <h2> Role Lists</h2>
       <table className="table table-bordered">
         <thead>
           <tr>
             <th>NO</th>
             <th>Name</th>
-            <th>UserName</th>
-            <th>rolee</th>
+            <th>Permissions</th>
             <th>action</th>
           </tr>
         </thead>
         <tbody>
-          {users.length > 0 ? (
-            users.map((user, index) => {
+          {items.length > 0 ? (
+            items.map((item,index) => {
               return (
                 <tr key={index}>
                   <td>{index}</td>
-                  <td>{user.name}</td>
-                  <td>{user.username}</td>
-                  <td>{user.role != null ? user.role : "-"}</td>
+                  <td>{item.name}</td>
+                  <td>{item.permission.map((i,k)=>(
+                    <span key={k}>{i.name}<br/></span>
+                  ))}</td>{" "}
                   <td>
                     <a className="btn btn-success" href="#">
                       Edit
@@ -97,15 +78,8 @@ function UserList() {
           )}
         </tbody>
       </table>
-      <Modal
-        show={showModal}
-        onHide={handleCloseModal}
-        animation={true}
-        centered
-      >
-<AssignRole onsubmit={assignRole}></AssignRole>      </Modal>
     </>
   );
 }
 
-export default UserList;
+export default RoleList;

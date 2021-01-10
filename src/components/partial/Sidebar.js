@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, withRouter } from "react-router-dom";
 function Sidebar(props) {
   const [pathName] = useState(props.history.location.pathname);
-  console.log(props);
+  // console.log(props);
   return (
     <ul class="list-group">
       <li

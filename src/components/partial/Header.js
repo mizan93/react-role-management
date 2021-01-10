@@ -11,7 +11,7 @@ function Header(props) {
   };
   useEffect(() => {
     const userItem = JSON.parse(localStorage.getItem("userItem")) || undefined;
-    console.log("typeof", typeof userItem);
+    // console.log("typeof", typeof userItem);
     if (typeof userItem != "undefined") {
       if (userItem.username && userItem.username.length > 0) {
         setisLogged(true);

@@ -1,5 +1,6 @@
 import React from "react";
 import Sidebar from "../../components/partial/Sidebar";
+import PermissionList from "../../components/permission/PermissionList";
 
 function PermissionContainer() {
   return (
@@ -9,7 +10,9 @@ function PermissionContainer() {
           <div className="col-3 mt-3">
             <Sidebar></Sidebar>{" "}
           </div>
-          <div className="col-9 mt-3">permissions </div>
+          <div className="col-9 mt-3">
+            <PermissionList></PermissionList>{" "}
+          </div>
         </div>
       </div>
     </div>

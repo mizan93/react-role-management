@@ -1,5 +1,6 @@
 import React from 'react'
 import Sidebar from '../../components/partial/Sidebar'
+import RoleList from '../../components/role/RoleList'
 
 function RoleContainer() {
     return (
@@ -10,7 +11,7 @@ function RoleContainer() {
               <Sidebar></Sidebar>
             </div>
             <div className="col-9 mt-3">
-              Roles
+              <RoleList></RoleList>
             </div>
           </div>
         </div>
