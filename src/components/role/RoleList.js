@@ -2,39 +2,25 @@ import React, { useEffect, useState } from "react";
 import getPermissonMasterData from "../../services/roles/RolePermissionData";
 
 function RoleList() {
-  const [items, setitems] = useState([
-    // {
-    //   itemname: "sumon",
-    //   name: "sumon ahmed",
-    //   password: "000",
-    //   role: "admin",
-    // },
-    // {
-    //   itemname: "sumon1",
-    //   name: "sumon ahmed",
-    //   password: "111",
-    //   role: "super_admin",
-    // },
-    // {
-    //   itemname: "sumon3",
-    //   name: "sumon ahmed",
-    //   password: "111",
-    //   role: null,
-    // },
-    // {
-    //   itemname: "sumon4",
-    //   name: "sumon ahmed",
-    //   password: "111",
-    //   role: "executive",
-    // },
-  ]);
+  const [roles, setRoles] = useState({ rolesDataAll: [] });
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editData, setEditData] = useState("");
+  // const [showEditModal, setShowEditModal] = useState(false);
+  // const handleCloseEditModal = () => setShowModal(false);
+  // const handleShowEditMOdal = () => setShowModal(true);
   useEffect(() => {
-    setitems(getPermissonMasterData);
-    // return () => {
-    //   cleanup
-    // }
-  }, [setitems]);
-  // console.log(items)
+    let roleData={...roles}
+    roleData.rolesDataAll=getPermissonMasterData()
+    setRoles(roleData);
+   
+  }, [setRoles]);
+  // Delete Role
+  const deleteRole= (index) => {
+    const roleData = { ...roles };
+    roleData.rolesDataAll.splice(index, 1);
+    setRoles(roleData);
+    alert("Role Deleted.");
+  };
   return (
     <>
       <h2> Role Lists</h2>
@@ -48,23 +34,28 @@ function RoleList() {
           </tr>
         </thead>
         <tbody>
-          {items.length > 0 ? (
-            items.map((item,index) => {
+          {roles.rolesDataAll.length > 0 ? (
+            roles.rolesDataAll.map((item, index) => {
               return (
-                <tr key={index}>
-                  <td>{index}</td>
+                <tr key={item.id}>
+                  <td>{item.id}</td>
                   <td>{item.name}</td>
-                  <td>{item.permission.map((i,k)=>(
-                    <span key={k}>{i.name}<br/></span>
-                  ))}</td>{" "}
                   <td>
-                    <a className="btn btn-success" href="#">
+                    {item.permission.map((i, k) => (
+                      <span key={k}>
+                        {i.name}
+                        <br />
+                      </span>
+                    ))}
+                  </td>{" "}
+                  <td>
+                    <button className="btn btn-success" >
                       Edit
-                    </a>
+                    </button>
 
-                    <a className="btn btn-danger " href="#">
+                    <button className="btn btn-danger " onClick={()=>deleteRole(item)}>
                       Delete
-                    </a>
+                    </button>
                   </td>
                 </tr>
               );
@@ -78,6 +69,7 @@ function RoleList() {
           )}
         </tbody>
       </table>
+      
     </>
   );
 }

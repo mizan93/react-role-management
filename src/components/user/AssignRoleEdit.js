@@ -5,55 +5,56 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 
 import getRoleMasterData from "../../services/roles/RoleMasterData";
-import getUserDataHasNoRole from "../../services/users/UserHasNoRole";
-import getUserData from "../../services/users/UserData";
+// import getUserDataHasNoRole from "../../services/users/UserHasNoRole";
 
-const AssignRole = (props) => {
-  const [users, setUsers] = useState([]);
+const AssignRoleEdit = (props) => {
+  //   const [users, setUsers] = useState([]);
   const [roles, setRoles] = useState([]);
 
-  const [user, setUser] = useState("");
+  //   const [user, setUser] = useState("");
   const [role, setRole] = useState("");
-
-  const changeUser = (e) => {
-    setUser(e.target.value);
-  };
+  const { user } = props;
+  // console.log('props', props)
+  //   const changeUser = (e) => {
+  //     setUser(e.target.value);
+  //   };
 
   const changeRole = (e) => {
     setRole(e.target.value);
   };
   const submitRole = () => {
-    if (user === "" || role === "") {
+    if (role === "") {
       alert("Please fill all the values");
       return false;
     }
-    const userData = JSON.parse(user);
+    // const userData = JSON.parse(user);
     const roleData = JSON.parse(role);
     const data = {
-      id: userData.id,
-      username: userData.username,
-      name: userData.name,
-      password: userData.password,
+      id: user.id,
+      username: user.username,
+      name: user.name,
+      password: user.password,
       role: {
         id: roleData.id,
         name: roleData.name,
       },
     };
 
-    props.onsubmit(data);
+    props.onsubmitEdit(data);
   };
   //   console.log("props", props);
 
   useEffect(() => {
     // setUsers(getUserDataHasNoRole);
-    setUsers(getUserData);
     setRoles(getRoleMasterData);
+    setRole(JSON.stringify(user.role))
   }, []);
+//   console.log("props", props);
 
   return (
     <>
       <Modal.Header closeButton>
-        <Modal.Title>Assign Role</Modal.Title>
+        <Modal.Title>Edit Assign Role</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
@@ -62,21 +63,7 @@ const AssignRole = (props) => {
               Select User
             </Form.Label>
             <Col sm="6">
-              <select
-                className="form-control"
-                value={user}
-                onChange={changeUser}
-                required
-              >
-                <option disabled value="">
-                  Please select a user
-                </option>
-                {users.map((item, index) => (
-                  <option value={JSON.stringify(item)} key={index}>
-                    {item.name}
-                  </option>
-                ))}
-              </select>
+              <Col sm="6">{user.name}</Col>
             </Col>
           </Form.Group>
 
@@ -91,11 +78,11 @@ const AssignRole = (props) => {
                 onChange={changeRole}
                 required
               >
-                <option disabled value="">
+                <option  value="">
                   Please select a role
                 </option>
                 {roles.map((item, index) => (
-                  <option value={JSON.stringify(item)} key={index}>
+                  <option value={JSON.stringify(item)} key={index} >
                     {item.name}
                   </option>
                 ))}
@@ -105,7 +92,7 @@ const AssignRole = (props) => {
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <button onClick={props.onClose} className="btn btn-danger">
+        <button onClick={props.onCloseEidt} className="btn btn-danger">
           Cancel
         </button>
         <button onClick={submitRole} className="btn btn-success" type="submit">
@@ -116,4 +103,4 @@ const AssignRole = (props) => {
   );
 };
 
-export default AssignRole;
+export default AssignRoleEdit;

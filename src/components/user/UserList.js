@@ -1,48 +1,64 @@
 import React, { useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import getUserData from "../../services/users/UserData";
-import AssignRole from "./AssignRole"
+import AssignRole from "./AssignRole";
+import AssignRoleEdit from "./AssignRoleEdit";
 function UserList() {
   const [showModal, setShowModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
   const handleCloseModal = () => setShowModal(false);
   const handleShowMOdal = () => setShowModal(true);
+  const onclose = () => setShowModal(false);
 
-  const [users, setusers] = useState([
-    // {
-    //   username: "sumon",
-    //   name: "sumon ahmed",
-    //   password: "000",
-    //   role: "admin",
-    // },
-    // {
-    //   username: "sumon1",
-    //   name: "sumon ahmed",
-    //   password: "111",
-    //   role: "super_admin",
-    // },
-    // {
-    //   username: "sumon3",
-    //   name: "sumon ahmed",
-    //   password: "111",
-    //   role: null,
-    // },
-    // {
-    //   username: "sumon4",
-    //   name: "sumon ahmed",
-    //   password: "111",
-    //   role: "executive",
-    // },
-  ]);
+  const handleCloseEditMOdal = () => setShowEditModal(false);
+  const handleShowEditMOdal = () => setShowEditModal(true);
+  const [users, setUsers] = useState({
+    userDataAll: [],
+  });
+  const [editData, setEditData] = useState("");
   useEffect(() => {
-    setusers(getUserData);
-    // return () => {
-    //   cleanup
-    // }
-  }, [setusers]);
-  const assignRole=(data)=>{
-    console.log('data', data)
-    alert('role entared')
-  }
+    let userData = { ...users };
+    userData.userDataAll = getUserData();
+    setUsers(userData);
+  }, [setUsers]);
+  const assignRole = (data) => {
+    const userData = { ...users };
+    for (let index = 0; index < userData.userDataAll.length; index++) {
+      if (userData.userDataAll[index].id === data.id) {
+        userData.userDataAll[index] = data;
+      }
+    }
+    setUsers(userData);
+    setShowModal(false);
+    alert("Success!  Role asigned.");
+  };
+  const assignRoleUpdate = (data) => {
+    // console.log("data", data);
+
+    const userData = {...users};
+
+    for (let index = 0; index < userData.userDataAll.length; index++) {
+      const item = userData.userDataAll[index].id;
+      if (item.id === data.id) {
+        userData.userDataAll[index] = data;
+      }
+    }
+    setUsers(userData);
+
+    setShowEditModal(false);
+    alert("Success!  Role edited.");
+  };
+  const editeUser = (user) => {
+    setEditData(user);
+    handleShowEditMOdal();
+  };
+  const deleteUser = (index) => {
+    const data = { ...users };
+    data.userDataAll.splice(index, 1);
+    setUsers(data);
+    alert("User Deleted.");
+  };
+
   // console.log(users)
   return (
     <>
@@ -63,27 +79,33 @@ function UserList() {
             <th>NO</th>
             <th>Name</th>
             <th>UserName</th>
-            <th>rolee</th>
+            <th>role</th>
             <th>action</th>
           </tr>
         </thead>
         <tbody>
-          {users.length > 0 ? (
-            users.map((user, index) => {
+          {users.userDataAll.length > 0 ? (
+            users.userDataAll.map((user, index) => {
               return (
-                <tr key={index}>
-                  <td>{index}</td>
+                <tr key={user.id}>
+                  <td>{user.id}</td>
                   <td>{user.name}</td>
                   <td>{user.username}</td>
-                  <td>{user.role != null ? user.role : "-"}</td>
+                  <td>{user.role != null ? user.role.name : "-"}</td>
                   <td>
-                    <a className="btn btn-success" href="#">
+                    <button
+                      className="btn btn-success"
+                      onClick={() => editeUser(user)}
+                    >
                       Edit
-                    </a>
+                    </button>
 
-                    <a className="btn btn-danger " href="#">
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => deleteUser(index)}
+                    >
                       Delete
-                    </a>
+                    </button>
                   </td>
                 </tr>
               );
@@ -98,12 +120,25 @@ function UserList() {
         </tbody>
       </table>
       <Modal
+        show={showEditModal}
+        onHide={handleCloseEditMOdal}
+        animation={true}
+        centered
+      >
+        <AssignRoleEdit
+          user={editData}
+          onsubmitEdit={assignRoleUpdate}
+          onCloseEidt={handleCloseEditMOdal}
+        ></AssignRoleEdit>{" "}
+      </Modal>
+      <Modal
         show={showModal}
         onHide={handleCloseModal}
         animation={true}
         centered
       >
-<AssignRole onsubmit={assignRole}></AssignRole>      </Modal>
+        <AssignRole onsubmit={assignRole} onClose={onclose}></AssignRole>{" "}
+      </Modal>
     </>
   );
 }

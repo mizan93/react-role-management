@@ -51,8 +51,8 @@ function PermissionList() {
           {items.length > 0 ? (
             items.map((item,index) => {
               return (
-                <tr key={index}>
-                  <td>{index}</td>
+                <tr key={item.id}>
+                  <td>{item.id}</td>
                   <td>{item.name}</td>
                   
                   <td>
