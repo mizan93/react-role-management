@@ -4,18 +4,6 @@ import getPermissonMasterData from "../../services/permissions/PermissonMasterDa
 function PermissionList() {
   const [items, setitems] = useState([
     // {
-    //   itemname: "sumon",
-    //   name: "sumon ahmed",
-    //   password: "000",
-    //   role: "admin",
-    // },
-    // {
-    //   itemname: "sumon1",
-    //   name: "sumon ahmed",
-    //   password: "111",
-    //   role: "super_admin",
-    // },
-    // {
     //   itemname: "sumon3",
     //   name: "sumon ahmed",
     //   password: "111",
@@ -43,27 +31,15 @@ function PermissionList() {
           <tr>
             <th>NO</th>
             <th>Name</th>
-            
-            <th>action</th>
           </tr>
         </thead>
         <tbody>
           {items.length > 0 ? (
-            items.map((item,index) => {
+            items.map((item, index) => {
               return (
                 <tr key={item.id}>
                   <td>{item.id}</td>
                   <td>{item.name}</td>
-                  
-                  <td>
-                    <a className="btn btn-success" href="#">
-                      Edit
-                    </a>
-
-                    <a className="btn btn-danger " href="#">
-                      Delete
-                    </a>
-                  </td>
                 </tr>
               );
             })

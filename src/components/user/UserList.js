@@ -35,7 +35,7 @@ function UserList() {
   const assignRoleUpdate = (data) => {
     // console.log("data", data);
 
-    const userData = {...users};
+    const userData = { ...users };
 
     for (let index = 0; index < userData.userDataAll.length; index++) {
       const item = userData.userDataAll[index].id;
@@ -46,7 +46,7 @@ function UserList() {
     setUsers(userData);
 
     setShowEditModal(false);
-    alert("Success!  Role edited.");
+    alert("Success!  User edited.");
   };
   const editeUser = (user) => {
     setEditData(user);
@@ -68,7 +68,7 @@ function UserList() {
         </div>
         <div className="float-right">
           <button className="btn btn-success" onClick={handleShowMOdal}>
-            {" "}
+            
             + Assign Role
           </button>
         </div>
@@ -129,7 +129,7 @@ function UserList() {
           user={editData}
           onsubmitEdit={assignRoleUpdate}
           onCloseEidt={handleCloseEditMOdal}
-        ></AssignRoleEdit>{" "}
+        ></AssignRoleEdit>
       </Modal>
       <Modal
         show={showModal}
@@ -137,7 +137,7 @@ function UserList() {
         animation={true}
         centered
       >
-        <AssignRole onsubmit={assignRole} onClose={onclose}></AssignRole>{" "}
+        <AssignRole onsubmit={assignRole} onClose={onclose}></AssignRole>
       </Modal>
     </>
   );
